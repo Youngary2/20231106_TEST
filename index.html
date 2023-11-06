@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST</title>
+</head>
+<style>
+    /* style.css */
+    *{padding: 0;margin: 0;}
+    li{list-style: none;}
+
+
+
+
+
+    .rocks{}
+    .rocks ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .rocks li{
+        width: 15%; height: 20vw;
+        margin-right: 2%;
+        margin-bottom: 2%;
+
+        position: relative;
+        perspective: 600px;/* 원근감있게 */
+    }
+    .rocks li:nth-child(6n){
+        margin-right: 0;
+    }
+    .rocks li .front{
+        display: flex;
+        padding: 20px 26px;
+        box-sizing: border-box;
+        height: 100%;
+        border-radius: 10px 10px 0 0;
+        background: url(/test/test/rockBg.png) no-repeat;
+        background-size: cover;
+        box-shadow: 0 0 14px rgba(0,0,0,0.4);
+
+
+        transform: rotateY(0deg);
+        transition: 0.5s;
+        transform-style: preserve-3d;/* 원근감있게 */
+    }
+    .rocks li:hover .front{
+        transform: rotateY(180deg);
+    }
+    .rocks li .back{
+        padding: 20px 26px;
+        box-sizing: border-box;
+        border-radius: 10px 10px 0 0;
+        background: url(/test/test/person03_1.png) no-repeat;
+        background-size: cover;
+
+        position: absolute;left: 0;top: 0;
+        width: 100%;height: 100%;
+        transition: 0.5s;
+
+        /* backface-visibility: hidden; */ /* 회전시 뒷면이 안보이게 */
+        transform-style: preserve-3d;/* 원근감있게 */
+        transform: rotateY(-180deg);/* 180도 돌리고 */
+        z-index: -1;/* 뒤로보냄 */
+    }
+    .rocks li:hover .back{
+        transform: rotateY(0deg);
+        z-index: 1;
+    }
+
+    .rocks .name{
+        width: 50%;
+        writing-mode:vertical-lr;
+        text-orientation: upright;
+        text-align: center;
+        font-size: 3.5vw;
+        letter-spacing: 0.1em;
+    }
+    .rocks .date{
+        width: 50%;
+        writing-mode:vertical-lr;
+        text-orientation: upright;
+        text-align: center;
+        font-size: 1.5vw;
+        letter-spacing: 0.1em;
+    }
+    .rocks .date .born{}
+    .rocks .date .end{}
+
+
+
+
+
+
+
+
+    /* 카드 */
+    .cardWrap{
+        /* display: none; */
+    }
+    /* .cardWrap.active{
+        display: block;
+    } */
+    .cardWrap.inner{
+        width: 80%;
+        margin: 0 auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .review-card {
+        /* border: 1px solid #D8D8D8; */
+        /* padding: 25px; */
+        box-shadow: 0 0 14px rgb(0 0 0 / 20%);
+        width: 100%; height: 100%;
+    }
+    .review-card img{
+        width: 100%;height: 100%;object-fit: fill;
+    }
+    .review-card-img {
+        border: 1px solid #eee;
+        width: 100px;
+        height: 70px;
+        background-image: url('https://unsplash.it/200');
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 0 auto 15px;
+    }
+
+    /* .review-card--option-4 {
+        border: 1px solid #D8D8D8;
+    } */
+
+    .carousel-wrap {
+        /* width: 635px;
+        height: 323px; */
+        width: 704px;
+        height: 348px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .carousel>li {
+        /* width: 500px;
+        height: 325px; */
+        width: 640px;
+        height: 400px;
+        background: #fff;
+        display: inline-block;
+        -webkit-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .items {
+        position: absolute;
+    }
+
+    .main-pos {
+        margin-left: 2em !important;
+        z-index: 3000;
+        box-shadow: 0 0 14px rgba(255,255,255,0.8);
+    }
+
+    .left-pos {
+        background: #ccc;
+        opacity: .5;
+        margin-left: -17em !important;
+        z-index: 1000;
+        -webkit-transform: scale(.75);
+        -moz-transform: scale(.75);
+        transform: scale(.75);
+    }
+
+    .left-pos .review-card--option-4 {
+        background: rgba(0, 0, 0, .2);
+        box-shadow: none !important;
+    }
+
+    .back-pos {
+        opacity: .05;
+        -webkit-transform: scale(.5);
+        -moz-transform: scale(.5);
+        transform: scale(.5);
+    }
+
+    .right-pos {
+        opacity: .5;
+        margin-left: 21em !important;
+        z-index: 1000;
+        -webkit-transform: scale(.75);
+        -moz-transform: scale(.75);
+        transform: scale(.75);
+    }
+
+    .right-pos .review-card--option-4 {
+        background: rgba(0, 0, 0, .2);
+        box-shadow: none !important;
+    }
+
+    .slider {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        text-align: center;
+    }
+
+    .slider i {
+        display: block;
+        width: 20px;height: 20px;
+        background: #222;
+
+        font-size: 60px;
+        color: #222;
+        text-shadow: 0 0 1px #000;
+        opacity: 0.8;
+    }
+    .slider i:hover{
+        opacity: 1;
+    }
+    .slider #prev,
+    .slider #next {
+        position: absolute;
+    }
+
+    .slider #prev {
+        left: -230px;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .slider #next {
+        right: -230px;
+    }
+
+
+
+
+
+
+    /* 
+    ************* 반응형 ************* */
+    @media (max-width:768px){
+        .rocks li{
+            width: 32%; height: auto;
+            padding: 10px 16px;
+        }
+        .rocks li:nth-child(6n){
+            margin-right: 2%;
+        }
+        .rocks li:nth-child(3n){
+            margin-right: 0;
+        }
+        .rocks .name{
+            font-size: 34px;
+        }
+        .rocks .date{
+            font-size: 15px;
+        }
+    }
+
+</style>
+<body>
+    <!-- <div class="rocks">
+        <ul>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+            <li>
+                <div class="front">
+                    <div class="name">故윤화수</div>
+                    <div class="date">
+                        <div class="born">生1922 &middot; 12 &middot; 07</div>
+                        <div class="end">來2003 &middot; 04 &middot; 03</div>
+                    </div>
+                </div>
+                <div class="back">
+
+                </div>
+            </li>
+        </ul>
+    </div> -->
+
+
+
+
+
+    <div class="cardWrap inner">
+        <div class="row">
+            <div class="col-lg-22">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <section class="carousel-wrap">
+                            <ul class="carousel">
+                                <li class="items main-pos" id="1" onclick="location.href='/pages/haenyeo_news/yeongdo/yeongdo_01.php'">
+                                    <div class="review-card review-card--option-4 text-center">
+                                        <img src="/test/test/rockBg.png" alt="">
+                                    </div>
+                                </li>
+                                <li class="items right-pos" id="2" onclick="location.href='/pages/haenyeo_news/yeongdo/yeongdo_04.php'">
+                                    <div class="review-card review-card--option-4 text-center">
+                                        <img src="/images/LeeJeongok_sum.jpg" alt="">
+                                    </div>
+                                </li>
+                                <li class="items back-pos" id="3" onclick="location.href='/pages/haenyeo_news/yeongdo/yeongdo_03.php'">
+                                    <div class="review-card review-card--option-4 text-center">
+                                        <img src="/images/GoBokhwa_sum.jpg" alt="">
+                                    </div>
+                                </li>
+                                <li class="items right-pos" id="4" onclick="location.href='/pages/haenyeo_news/yeongdo/yeongdo_05.php'">
+                                    <div class="review-card review-card--option-4 text-center">
+                                        <img src="/images/JoeMijin_sum.jpg" alt="">
+                                    </div>
+                                </li>
+                                <li class="items right-pos" id="5" onclick="location.href='/pages/haenyeo_news/yeongdo/yeongdo_02.php'">
+                                    <div class="review-card review-card--option-4 text-center">
+                                        <img src="/images/고경영썸네일.jpg" alt="">
+                                    </div>
+                                </li>
+                            </ul>
+                            <span class="slider">
+                                    <a href="javascript:void(0);" value="Prev" id="prev"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                                    <a href="javascript:void(0);" value="Next" id="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                                </span>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<!-- JQuery CDN연결 -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+
+
+
+
+<script>
+    /* 카드 */
+    //slideshow style interval
+    var autoSwap = setInterval(swap, 7000);
+
+    //pause slideshow and reinstantiate on mouseout
+    $('.carousel, .slider').hover(
+        function () {
+            clearInterval(autoSwap);
+        },
+        function () {
+            autoSwap = setInterval(swap, 7000);
+        });
+
+    //global variables
+    var items = [];
+    var startItem = 1;
+    var position = 0;
+    var itemCount = $('.carousel>li').length;
+    var leftpos = itemCount;
+    var resetCount = itemCount;
+
+    //unused: gather text inside items class
+    $('.carousel>li').each(function (index) {
+        items[index] = $(this).text();
+    });
+
+    //swap images function
+    function swap(action) {
+        var direction = action;
+
+        //moving carousel backwards
+        if (direction == 'counter-clockwise') {
+            var leftitem = $('.left-pos').attr('id') - 1;
+            if (leftitem == 0) {
+                leftitem = itemCount;
+            }
+
+            $('.right-pos').removeClass('right-pos').addClass('back-pos');
+            $('.main-pos').removeClass('main-pos').addClass('right-pos');
+            $('.left-pos').removeClass('left-pos').addClass('main-pos');
+            $('#' + leftitem + '').removeClass('back-pos').addClass('left-pos');
+
+            startItem--;
+            if (startItem < 1) {
+                startItem = itemCount;
+            }
+        }
+
+        //moving carousel forward
+        if (direction == 'clockwise' || direction == '' || direction == null) {
+            function pos(positionvalue) {
+                if (positionvalue != 'leftposition') {
+                    //increment image list id
+                    position++;
+
+                    //if final result is greater than image count, reset position.
+                    if ((startItem + position) > resetCount) {
+                        position = 1 - startItem;
+                    }
+                }
+
+                //setting the left positioned item
+                if (positionvalue == 'leftposition') {
+                    //left positioned image should always be one left than main positioned image.
+                    position = startItem - 1;
+
+                    //reset last image in list to left position if first image is in main position
+                    if (position < 1) {
+                        position = itemCount;
+                    }
+                }
+
+                return position;
+            }
+
+            $('#' + startItem + '').removeClass('main-pos').addClass('left-pos');
+            $('#' + (startItem + pos()) + '').removeClass('right-pos').addClass('main-pos');
+            $('#' + (startItem + pos()) + '').removeClass('back-pos').addClass('right-pos');
+            $('#' + pos('leftposition') + '').removeClass('left-pos').addClass('back-pos');
+
+            startItem++;
+            position = 0;
+            if (startItem > itemCount) {
+                startItem = 1;
+            }
+        }
+    }
+
+    //next button click function
+    $('#next').click(function () {
+        swap('clockwise');
+    });
+
+    //prev button click function
+    $('#prev').click(function () {
+        swap('counter-clockwise');
+    });
+
+    //if any visible items are clicked
+    $('.items').click(function () {
+        if ($(this).attr('class') == 'items left-pos') {
+            swap('counter-clockwise');
+        } else {
+            swap('clockwise');
+        }
+    });
+</script>
+</html>
